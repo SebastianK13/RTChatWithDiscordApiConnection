@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29411.108
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTChat", "RTChatWithDiscordApiConnection\RTChat.csproj", "{98E64608-65ED-43A4-A953-2ADF6691FEEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTChatClient", "RTChatClient\RTChatClient.csproj", "{BDDD113D-9897-4E71-956A-82DBB5A4A78C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98E64608-65ED-43A4-A953-2ADF6691FEEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98E64608-65ED-43A4-A953-2ADF6691FEEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98E64608-65ED-43A4-A953-2ADF6691FEEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98E64608-65ED-43A4-A953-2ADF6691FEEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDDD113D-9897-4E71-956A-82DBB5A4A78C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDDD113D-9897-4E71-956A-82DBB5A4A78C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDDD113D-9897-4E71-956A-82DBB5A4A78C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDDD113D-9897-4E71-956A-82DBB5A4A78C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E1F2F76-4E90-497D-AAC9-23CB4743FF42}
+	EndGlobalSection
+EndGlobal
