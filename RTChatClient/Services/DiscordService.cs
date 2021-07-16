@@ -13,22 +13,20 @@ namespace RTChatClient.Services
 {
     public class DiscordService
     {
-        private SignalRConnection connection;
         private DiscordSocketClient client;
-        private ulong id = 849546282582147102;
+        private TelegramService teleClient;
         private ulong guildId = 849317331086999612;
         private ulong textChanneldId = 849317331086999615;
         private string uName = "";
         private TimeZoneInfo currentTZ;
-
-        public DiscordService(SignalRConnection connection)
+        public bool initFinished = false;
+        public DiscordService()
         {
-            this.connection = connection;
             Console.ForegroundColor = ConsoleColor.Blue;
-            currentTZ = TimeZoneInfo.Local; 
+            currentTZ = TimeZoneInfo.Local;
         }
 
-        public async Task Listner()
+        public async Task<bool> DiscordInitialize()
         {
             client = new DiscordSocketClient();
             client.MessageReceived += NewMessageHAndler;
@@ -38,18 +36,24 @@ namespace RTChatClient.Services
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
 
+            return Task.CompletedTask.IsCompleted;
         }
         private Task NewMessageHAndler(SocketMessage msg)
         {
-            DateTime date = DateTime.Now;
-            string dateTimeZoneLess = date.ToString("d", CultureInfo.InvariantCulture);
-            connection.SendMsg(msg.Author.Username, msg.Content, dateTimeZoneLess);
-            connection.Unblock();
+            if (!teleClient.Stop)
+            {
+                string date = DateTime.Now.ToString();
+                string message = msg.Author.Username + " " + date + ":\n" + msg.Content;
+                Console.WriteLine(message);
+                teleClient.SendMessage(message).GetAwaiter().GetResult();
+            }
+            else
+                teleClient.Stop = false;
+
             return Task.CompletedTask;
         }
         private Task InitializeMessageList()
         {
-            uName = client.GetUser(id).Username;
             var messages = client.GetGuild(guildId)
                 .GetTextChannel(textChanneldId)
                 .GetMessagesAsync()
@@ -62,13 +66,17 @@ namespace RTChatClient.Services
             foreach (var message in messages)
             {
                 if (!String.IsNullOrEmpty(message.Content))
-                    Console.WriteLine(message.Author.Username + " " + 
+                    Console.WriteLine(message.Author.Username + " " +
                         TimeZoneInfo.ConvertTimeFromUtc(message.Timestamp.UtcDateTime, currentTZ) + ":\n" + message.Content);
             }
+
+            initFinished = true;
 
             return Task.CompletedTask;
         }
         public async Task SendMessage(string message) =>
             await client.GetGuild(guildId).GetTextChannel(textChanneldId).SendMessageAsync(message);
+        public void SetTeleObject(TelegramService telegram) =>
+            teleClient = telegram;
     }
 }

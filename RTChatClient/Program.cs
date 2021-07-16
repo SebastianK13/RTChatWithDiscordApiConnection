@@ -9,18 +9,19 @@ namespace RTChatClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var connection = new SignalRConnection();
-            connection.Start();
-            ApplicationService applicationService = new ApplicationService(connection);
+            DiscordService discord = new DiscordService();
+            await discord.DiscordInitialize();
 
-            var discord = new DiscordService(connection);
-            discord.Listner().GetAwaiter().GetResult();
+            TelegramService telegram = new TelegramService();
+            telegram.TelegramInitialize();
 
-            MessageTyping typing = new MessageTyping(discord);
-            typing.Typing().GetAwaiter().GetResult();
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(applicationService.OnExitEventHandler);
+            discord.SetTeleObject(telegram);
+            telegram.SetTeleObject(discord);
+
+            MessageTyping typing = new MessageTyping(discord, telegram);
+            await typing.Typing();
 
             Console.Read();
         }
